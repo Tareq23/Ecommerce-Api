@@ -1,10 +1,13 @@
 package com.research.project.security.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="roles")
@@ -23,9 +29,24 @@ public class RoleEntity {
 	private String name;
 	private String description;
 	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
+	
+	private Set<UserEntity> users = new HashSet<>();
 	
 	
-	
+	/**
+	 * @return the users
+	 */
+	public Set<UserEntity> getUsers() {
+		return users;
+	}
+	/**
+	 * @param users the users to set
+	 */
+	public void setUsers(Set<UserEntity> users) {
+		this.users = users;
+	}
 	public RoleEntity(String name, String description) {
 		super();
 		this.name = name;
@@ -35,28 +56,10 @@ public class RoleEntity {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_roles",joinColumns = @JoinColumn(name="role_id"),inverseJoinColumns = @JoinColumn(name="user_id"))
-	private List<UserEntity> listOfUsers = new ArrayList<>();
 	
 	
 	
 	
-	/**
-	 * @return the listOfUsers
-	 */
-	public List<UserEntity> getListOfUsers() {
-		return listOfUsers;
-	}
-	/**
-	 * @param listOfUsers the listOfUsers to set
-	 */
-	public void setListOfUsers(List<UserEntity> listOfUsers) {
-		this.listOfUsers = listOfUsers;
-	}
-	/**
-	 * @return the id
-	 */
 	public long getId() {
 		return id;
 	}

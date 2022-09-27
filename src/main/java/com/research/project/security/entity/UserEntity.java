@@ -1,10 +1,13 @@
 package com.research.project.security.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "users")
@@ -26,10 +34,26 @@ public class UserEntity {
 	private String password;
 	private String phoneNumber;
 	
+	@ManyToMany
+	@JoinTable(name="user_roles",
+		joinColumns = @JoinColumn(name="user_id",referencedColumnName = "id"),
+		inverseJoinColumns = @JoinColumn(name="role_id",referencedColumnName = "id"))
+	
+	private Set<RoleEntity> roles = new HashSet<>();
 	
 	
-	
-	
+	/**
+	 * @return the roles
+	 */
+	public Set<RoleEntity> getRoles() {
+		return roles;
+	}
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(Set<RoleEntity> roles) {
+		this.roles = roles;
+	}
 	public UserEntity() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -43,25 +67,7 @@ public class UserEntity {
 		this.password = password;
 	}
 	
-	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(name = "user_roles",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="role_id"))
-	private List<RoleEntity> listOfRoles = new ArrayList<>();
-	
-	
-	
-	
-	/**
-	 * @return the listOfRoles
-	 */
-	public List<RoleEntity> getListOfRoles() {
-		return listOfRoles;
-	}
-	/**
-	 * @param listOfRoles the listOfRoles to set
-	 */
-	public void setListOfRoles(List<RoleEntity> listOfRoles) {
-		this.listOfRoles = listOfRoles;
-	}
+
 	/**
 	 * @return the id
 	 */

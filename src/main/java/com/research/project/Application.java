@@ -11,8 +11,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.research.project.security.entity.CheckEntity;
 import com.research.project.security.entity.RoleEntity;
 import com.research.project.security.entity.UserEntity;
+import com.research.project.security.repository.CheckRepository;
 import com.research.project.security.repository.RoleRepository;
 import com.research.project.security.repository.UserRepository;
 
@@ -23,6 +25,9 @@ public class Application implements CommandLineRunner{
 	private UserRepository userRepository;
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private CheckRepository checkRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -60,13 +65,14 @@ public class Application implements CommandLineRunner{
 		}
 		roleRepository.saveAll(roles);
 		
-		user1.getListOfRoles().add(role1);
-		user1.getListOfRoles().add(role2);
+		user1.getRoles().add(role1);
+		user1.getRoles().add(role2);
 		
-		user2.getListOfRoles().add(role3);
-		user2.getListOfRoles().add(role2);
+		user2.getRoles().add(role2);
+		user2.getRoles().add(role3);
 		
-		user3.getListOfRoles().add(role3);
+		user3.getRoles().add(role3);
+		
 		
 		List<UserEntity> users = new ArrayList<>();
 		
@@ -85,6 +91,17 @@ public class Application implements CommandLineRunner{
 		}
 		
 		userRepository.saveAll(users);
+		
+		
+		CheckEntity check1 = new CheckEntity("name 1","address 1");
+		CheckEntity check2 = new CheckEntity("name 2","address 2");
+		CheckEntity check3 = new CheckEntity("name 3","address 3");
+		CheckEntity check4 = new CheckEntity("name 4","address 4");
+		CheckEntity check5 = new CheckEntity("name 5","address 5");
+		
+		List<CheckEntity> checks = Arrays.asList(check1,check2,check3,check4,check5);
+		
+		checkRepository.saveAll(checks);
 		
 	}
 
