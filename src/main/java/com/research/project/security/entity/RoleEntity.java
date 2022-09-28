@@ -30,7 +30,7 @@ public class RoleEntity {
 	private String description;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	
 	private Set<UserEntity> users = new HashSet<>();
 	

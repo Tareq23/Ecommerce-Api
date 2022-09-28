@@ -1,4 +1,4 @@
-package com.research.project.controller;
+package com.research.project.admin.controller;
 
 import java.util.List;
 

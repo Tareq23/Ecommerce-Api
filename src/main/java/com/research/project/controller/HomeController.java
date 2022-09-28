@@ -7,6 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,11 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.research.project.model.AuthenticationRequest;
 import com.research.project.model.AuthorizationModel;
+import com.research.project.security.entity.RoleEntity;
+import com.research.project.security.entity.UserEntity;
+import com.research.project.security.repository.RoleRepository;
+import com.research.project.security.repository.UserRepository;
 import com.research.project.security.service.CustomUserDetailsService;
 import com.research.project.security.service.JwtUtils;
 
 @RestController
 public class HomeController {
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -37,9 +51,14 @@ public class HomeController {
 	
 	
 	@PostMapping("/register")
-	public String register()
+	public ResponseEntity<UserEntity> register(@RequestBody UserEntity user)
 	{
-		return "User register";
+		RoleEntity role = roleRepository.findByName("CUSTOMER");
+		user.getRoles().add(role);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
+		userRepository.delete(userRepository.findByUsername("customer1"));
+		return ResponseEntity.ok().body(userRepository.save(user));
 	}
 	
 	@PostMapping("/login")
