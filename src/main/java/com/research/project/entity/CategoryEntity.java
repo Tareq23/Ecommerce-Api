@@ -14,7 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+@Entity(name = "categories")
 @Table(name = "Categories")
 public class CategoryEntity {
 	@Id
@@ -28,6 +30,13 @@ public class CategoryEntity {
 	
 	
 
+	public CategoryEntity(long id, String name, String imageUrl) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.imageUrl = imageUrl;
+	}
+
 	public CategoryEntity() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -38,6 +47,7 @@ public class CategoryEntity {
 		this.name = name;
 	}
 
+	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "category")
 //	@JoinTable(
 //			name = "product_category",

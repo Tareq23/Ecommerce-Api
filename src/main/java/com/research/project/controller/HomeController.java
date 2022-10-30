@@ -8,6 +8,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import com.research.project.security.repository.UserRepository;
 import com.research.project.security.service.CustomUserDetailsService;
 import com.research.project.security.service.JwtUtils;
 
+@CrossOrigin
 @RestController
 public class HomeController {
 	
@@ -57,13 +59,14 @@ public class HomeController {
 		user.getRoles().add(role);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		
-		userRepository.delete(userRepository.findByUsername("customer1"));
+//		userRepository.delete(userRepository.findByUsername("customer1"));
 		return ResponseEntity.ok().body(userRepository.save(user));
 	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<AuthorizationModel> login(@RequestBody AuthenticationRequest authenticationRequest) throws Exception
 	{
+		System.out.println("----------------------------------   login request form frontend");
 		try {
 			
 			System.out.println("before request ");

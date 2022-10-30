@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.research.project.security.entity.CheckEntity;
 import com.research.project.security.entity.RoleEntity;
@@ -19,23 +20,24 @@ import com.research.project.security.repository.RoleRepository;
 import com.research.project.security.repository.UserRepository;
 
 @SpringBootApplication
-public class Application implements CommandLineRunner{
+@CrossOrigin(maxAge = 3600)
+public class Application{
 	
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private RoleRepository roleRepository;
-	
-	@Autowired
-	private CheckRepository checkRepository;
+//	@Autowired
+//	private UserRepository userRepository;
+//	@Autowired
+//	private RoleRepository roleRepository;
+//	
+//	@Autowired
+//	private CheckRepository checkRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		
+//	@Override
+//	public void run(String... args) throws Exception {
+//		
 //		UserEntity user1 = new UserEntity("Md Tarequl", "Islam", "tareq23", "12345678",new BCryptPasswordEncoder().encode("12345678"));
 //		UserEntity user2 = new UserEntity("Shariaz", "Muntakim", "shuvo", "12345678", new BCryptPasswordEncoder().encode("12345678"));
 //		UserEntity user3 = new UserEntity("Nahid", "Hasan", "nahid", "12345678", new BCryptPasswordEncoder().encode("12345678"));
@@ -102,7 +104,7 @@ public class Application implements CommandLineRunner{
 //		List<CheckEntity> checks = Arrays.asList(check1,check2,check3,check4,check5);
 //		
 //		checkRepository.saveAll(checks);
-		
-	}
+//		
+//	}
 
 }

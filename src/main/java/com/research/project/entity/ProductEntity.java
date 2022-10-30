@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "products")
 public class ProductEntity {
@@ -28,7 +30,8 @@ public class ProductEntity {
 	@Lob
 	private String description;
 	
-	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
 //	@JoinTable(
 //			name = "product_category",
 //			joinColumns = @JoinColumn(name="product_id", referencedColumnName = "id"),

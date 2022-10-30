@@ -1,5 +1,6 @@
 package com.research.project.admin.controller;
 
+import java.io.IOException;
 import java.net.http.HttpRequest;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,19 +47,12 @@ public class AdminCategoryController {
 			return "Required All Field";
 		}
 		
-		
-		
-//		return ResponseEntity.ok().body(categoryEntity);
-		
-		String path = imageUploadHelper.uploadFile(file);
-//		String path = "weelo";
+		String path = imageUploadHelper.uploadFile(file).toString();
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		CategoryEntity cat = objectMapper.readValue(name, CategoryEntity.class);
 		if(!path.contains("error"))
 		{
-			
-//			CategoryEntity category = new CategoryEntity(name);
-//			category.setImageUrl(path);
 			cat.setImageUrl(path);
 			return ResponseEntity.ok().body(categoryRepository.save(cat));
 		}
@@ -71,16 +66,32 @@ public class AdminCategoryController {
 		return ResponseEntity.ok().body(categoryRepository.findAll());
 	}
 	
-	@PutMapping("/update")
-	public String updateCategory()
+	@GetMapping("/show/{category-id}/products")
+	public <T> Object showSingleCategoryProduct(@PathVariable("category-id") Long id)
 	{
-		return null;
+		return ResponseEntity.ok().body(categoryRepository.findById(id));
+	}
+	
+	@PutMapping("/update")
+	public <T> Object updateCategory(@RequestBody CategoryEntity category)
+	{
+//		categoryRepository.
+		
+		return ResponseEntity.ok().body(categoryRepository.save(category));
+		
+//		return "success";
 	}
 	
 	@DeleteMapping("/delete")
-	public String deleteCategory()
+	public <T> Object deleteCategory(@RequestBody CategoryEntity category) throws IOException
 	{
-		return null;
+		
+		if(imageUploadHelper.deleteFile(category.getImageUrl())) {
+			categoryRepository.delete(category);
+			return ResponseEntity.noContent().build();
+		}
+		
+		return "Something went to wrong";
 	}
 
 }

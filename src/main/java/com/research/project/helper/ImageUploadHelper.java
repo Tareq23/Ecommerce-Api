@@ -26,7 +26,7 @@ public class ImageUploadHelper{
 	
 	
 	
-	public String uploadFile(MultipartFile file)
+	public <T> Object uploadFile(MultipartFile file)
 	{
 		try {
 			InputStream is = file.getInputStream();
@@ -48,9 +48,24 @@ public class ImageUploadHelper{
 		catch(IOException e)
 		{
 			e.printStackTrace();
+			return "error";
 		}
 		
-		return "error";
+//		return "error";
+	}
+	
+	public boolean deleteFile(String imageUrl) throws IOException
+	{
+		
+		String ss[] = imageUrl.split("/");
+		String fileName = ss[ss.length-1];
+		
+		File file = new ClassPathResource("static/images/"+fileName).getFile();
+//		System.out.println("Directory path file exists : "+file.exists());
+		if(file.delete()) {
+			return true;
+		}
+		return false;
 	}
 	
 	
