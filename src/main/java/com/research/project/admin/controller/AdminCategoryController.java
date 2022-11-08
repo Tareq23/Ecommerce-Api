@@ -47,6 +47,9 @@ public class AdminCategoryController {
 			return "Required All Field";
 		}
 		
+		System.out.println("------------------> new added category name : "+name);
+	
+		
 		String path = imageUploadHelper.uploadFile(file).toString();
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -66,32 +69,79 @@ public class AdminCategoryController {
 		return ResponseEntity.ok().body(categoryRepository.findAll());
 	}
 	
+	
+	@GetMapping("/all-only-category")
+	public <T> Object showAllCategoryOnly()
+	{
+		return ResponseEntity.ok().body(categoryRepository.getOnlyCategory());
+	}
+	
 	@GetMapping("/show/{category-id}/products")
 	public <T> Object showSingleCategoryProduct(@PathVariable("category-id") Long id)
 	{
 		return ResponseEntity.ok().body(categoryRepository.findById(id));
 	}
 	
+	
+	
+	@GetMapping("/show/{category-id}")
+	public <T> Object showCategory(@PathVariable("category-id") Long id)
+	{
+		return ResponseEntity.ok().body(categoryRepository.findOnlyCategory(id));
+	}
+	
+	
+	
 	@PutMapping("/update")
 	public <T> Object updateCategory(@RequestBody CategoryEntity category)
 	{
-//		categoryRepository.
-		
+
 		return ResponseEntity.ok().body(categoryRepository.save(category));
 		
-//		return "success";
 	}
+	
+	
+	@PutMapping(path="/update-with-image",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+	public <T> Object updateCategoryWithImage(@RequestParam("file") MultipartFile file,@RequestParam("isImageExists") String isImageExists, @RequestParam("isImageChanged") String isImageChanged, @RequestParam("name") String name) throws IOException
+	{
+		
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		CategoryEntity category = objectMapper.readValue(name, CategoryEntity.class);
+		
+		if(isImageExists.equals("true")&&isImageChanged.equals("true")) {
+			imageUploadHelper.deleteFile(category.getImageUrl());
+//			System.out.println("---> Admin Category controller : isImageExists"+category.isImageExists());
+		}
+		
+		
+		
+		if(isImageChanged.equals("true")) {
+			String path = imageUploadHelper.uploadFile(file).toString();
+			if(!path.contains("error"))
+			{
+				category.setImageUrl(path);
+				return ResponseEntity.ok().body(categoryRepository.save(category));
+			}
+		}
+		System.out.println("---> Admin Category controller : required all field");
+
+		return "Required All Field";
+		
+	}
+	
 	
 	@DeleteMapping("/delete")
 	public <T> Object deleteCategory(@RequestBody CategoryEntity category) throws IOException
 	{
 		
-		if(imageUploadHelper.deleteFile(category.getImageUrl())) {
-			categoryRepository.delete(category);
-			return ResponseEntity.noContent().build();
-		}
-		
-		return "Something went to wrong";
+//		if(imageUploadHelper.deleteFile(category.getImageUrl())) {
+//			categoryRepository.delete(category);
+//			return ResponseEntity.noContent().build();
+//		}
+		categoryRepository.delete(category);
+		return ResponseEntity.noContent().build();
+//		return "Something went to wrong";
 	}
 
 }

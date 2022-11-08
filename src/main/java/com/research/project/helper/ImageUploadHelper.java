@@ -33,10 +33,14 @@ public class ImageUploadHelper{
 			byte data[] = new byte[is.available()];
 			is.read(data);
 			
+//			System.out.println("file "+file.getSize());
+//			System.out.println("file "+file.getContentType());
+//			System.out.println("file "+file.getOriginalFilename());
+//			
 			String fileExtention = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 			
 			String fileName = System.currentTimeMillis()+fileExtention;
-			System.out.println(fileName);
+//			System.out.println(fileName);
 			
 			FileOutputStream fos = new FileOutputStream(uploadDir+File.separator+fileName);
 			fos.write(data);
@@ -62,8 +66,10 @@ public class ImageUploadHelper{
 		
 		File file = new ClassPathResource("static/images/"+fileName).getFile();
 //		System.out.println("Directory path file exists : "+file.exists());
-		if(file.delete()) {
-			return true;
+		if(file.exists()) {
+			if(file.delete()) {
+				return true;
+			}
 		}
 		return false;
 	}

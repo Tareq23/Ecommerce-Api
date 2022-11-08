@@ -65,6 +65,7 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter{
 			
 		} else {
 			System.out.println("Cannot set the Security Context");
+			System.out.println("jwt token __--> "+jwtToken);
 		}
 		
 		

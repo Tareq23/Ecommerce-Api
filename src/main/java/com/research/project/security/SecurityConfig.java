@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/manager/**").hasAnyAuthority("ADMIN","MANAGER")
 		.antMatchers("/customer/**").hasAuthority("CUSTOMER")
 		.antMatchers("/**")
-		.permitAll().anyRequest().authenticated()
+		.permitAll().antMatchers("/image/**").permitAll().anyRequest().authenticated()
 		.and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).
 		and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
 		and().addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -82,6 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        System.out.println("CorsConfigurationSource ----------------->");
         return source;
     }
 	

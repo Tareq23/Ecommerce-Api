@@ -20,4 +20,9 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
 //	@Query(value="SELECT new com.research.project.entity.CategoryEntity(ce.id, ce.name, ce.imageUrl) from categories ce",nativeQuery = true)
 	@Query("SELECT new com.research.project.entity.CategoryEntity(ce.id, ce.name, ce.imageUrl) from categories ce")
 	public List<CategoryEntity> getOnlyCategory();
+	
+	@Query("SELECT new com.research.project.entity.CategoryEntity(ce.id, ce.name, ce.imageUrl) from categories ce where id=?1")
+	public CategoryEntity findOnlyCategory(Long id);
+	
+//	public CategoryEntity getOnlySingleCategoryById(Long id);
 }

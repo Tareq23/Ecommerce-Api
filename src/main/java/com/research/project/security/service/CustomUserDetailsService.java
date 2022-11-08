@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		UserEntity user = userRepository.findByUsername(username);
 		List<SimpleGrantedAuthority> roles= new ArrayList<>();
 		if(user != null) {
-			System.out.println(" loadUserByUsername  : "+user.getFirstName());
+//			System.out.println(" loadUserByUsername  : "+user.getFirstName());
 			Set<RoleEntity> entityroles = user.getRoles();
 			for (RoleEntity role : entityroles) {
 				System.out.println("added role : ------------> "+role.getName());

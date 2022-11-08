@@ -52,7 +52,7 @@ public class JwtUtils {
 			claims.put("isManager", true);
 		}
 		
-		System.out.println("check is admin claims : -> "+claims.get("isAdmin"));
+//		System.out.println("check is admin claims : -> "+claims.get("isAdmin"));
 		
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
