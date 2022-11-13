@@ -3,6 +3,7 @@ package com.research.project.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,10 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
 	
 	@Query("SELECT new com.research.project.entity.CategoryEntity(ce.id, ce.name, ce.imageUrl) from categories ce where id=?1")
 	public CategoryEntity findOnlyCategory(Long id);
+	
+//	@Modifying
+//	@Query("DELETE from products p where category_id=?1")
+//	public int deleteCategoryProduct(Long id);
 	
 //	public CategoryEntity getOnlySingleCategoryById(Long id);
 }

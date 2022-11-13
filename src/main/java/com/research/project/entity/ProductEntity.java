@@ -12,11 +12,14 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "products")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductEntity {
 	
 	@Id
@@ -30,6 +33,9 @@ public class ProductEntity {
 	@Lob
 	private String description;
 	
+	@Transient
+	private long categoryId;
+	
 	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
 //	@JoinTable(
@@ -40,6 +46,30 @@ public class ProductEntity {
 		
 	@JoinColumn(name = "category_id")
 	private CategoryEntity category;
+	
+	
+	
+	
+	
+
+	public ProductEntity(long id, String name, float price, String imageUrl, String description, long categoryId) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.imageUrl = imageUrl;
+		this.description = description;
+		this.categoryId = categoryId;
+	}
+	
+	
+
+	public ProductEntity() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 	/**
 	 * @return the id

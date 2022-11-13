@@ -38,8 +38,9 @@ public class AdminProductController {
 	private ProductRepository productRepository;
 	
 	@PostMapping("/add")
-	public <T> Object addProduct(@RequestParam("image") MultipartFile file, @RequestParam("body") String body) throws JsonMappingException, JsonProcessingException
+	public <T> Object addProduct(@RequestParam("file") MultipartFile file, @RequestParam("body") String body) throws JsonMappingException, JsonProcessingException
 	{
+		System.out.println("admin product controller : "+body);
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		ProductEntity product = objectMapper.readValue(body, ProductEntity.class);
@@ -106,4 +107,14 @@ public class AdminProductController {
 		
 		return new ResponseEntity<Error>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@GetMapping("/view/{id}/details-with-category")
+	public <T> Object getProductWithCategory(@PathVariable("id") Long id) {
+		
+//		System.out.println(productRepository.findByProductId(id));
+		
+
+		return new ResponseEntity<Error>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 }

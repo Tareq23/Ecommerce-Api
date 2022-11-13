@@ -39,7 +39,7 @@ public class AdminCategoryController {
 	private CategoryRepository categoryRepository;
 	
 	@PostMapping(path = "/add",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-	public <T> Object addCategory(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) throws JsonMappingException, JsonProcessingException
+	public <T> Object addCategory(@RequestParam("file") MultipartFile file, @RequestParam("body") String name) throws JsonMappingException, JsonProcessingException
 	{
 		
 		if(file.isEmpty())
@@ -139,7 +139,13 @@ public class AdminCategoryController {
 //			categoryRepository.delete(category);
 //			return ResponseEntity.noContent().build();
 //		}
-		categoryRepository.delete(category);
+//		int rs = categoryRepository.deleteCategoryProduct(category.getId());
+//		if(rs >= 0) {
+//			categoryRepository.delete(category);
+//		}
+//		
+//		System.out.println("rs ---------> delete category : "+rs);
+		
 		return ResponseEntity.noContent().build();
 //		return "Something went to wrong";
 	}
