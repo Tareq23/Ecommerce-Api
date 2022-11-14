@@ -102,7 +102,7 @@ public class AdminCategoryController {
 	
 	
 	@PutMapping(path="/update-with-image",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-	public <T> Object updateCategoryWithImage(@RequestParam("file") MultipartFile file,@RequestParam("isImageExists") String isImageExists, @RequestParam("isImageChanged") String isImageChanged, @RequestParam("name") String name) throws IOException
+	public <T> Object updateCategoryWithImage(@RequestParam("file") MultipartFile file,@RequestParam("isImageExists") String isImageExists, @RequestParam("isImageChanged") String isImageChanged, @RequestParam("body") String name) throws IOException
 	{
 		
 		

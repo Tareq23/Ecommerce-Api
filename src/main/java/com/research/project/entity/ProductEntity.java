@@ -1,6 +1,8 @@
 package com.research.project.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,16 +12,31 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.research.project.projections.ProductDTO;
 
-@Entity
+
+@Entity(name = "products")
 @Table(name = "products")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@NamedNativeQuery(name = "ProductEntity.getSingleProductById", 
+		query = "SELECT p.id, p.name, p.image_url as imageUrl, p.price, p.description, c.id as "+
+		"categoryId, c.name as categoryName, c.image_url as categoryImageUrl FROM  products "+
+		"p inner join categories c on p.category_id =  c.id where p.id = :id", resultSetMapping = "Mapping.ProductDTO")
+
+@SqlResultSetMapping(name = "Mapping.ProductDTO", classes = @ConstructorResult(targetClass = ProductDTO.class, columns = {
+		@ColumnResult(name = "id"), @ColumnResult(name = "name"), @ColumnResult(name = "imageUrl"),
+		@ColumnResult(name = "price"), @ColumnResult(name = "description"),  
+		@ColumnResult(name = "categoryId"),  @ColumnResult(name = "categoryName"),
+		@ColumnResult(name = "categoryImageUrl")
+}))
 public class ProductEntity {
 	
 	@Id
