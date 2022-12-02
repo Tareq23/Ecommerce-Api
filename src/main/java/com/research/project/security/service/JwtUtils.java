@@ -30,7 +30,7 @@ public class JwtUtils {
 	
 //	private final String SECRET_KEY = "SECRET12*x34*y56*zKEY";
 	private final String SECRET_KEY = "SECRET22k3j3k3j3k3j3k3j3k3j3k3j3k3j3k3j3k12KEYSECRET12KEYSECRET12KEYSECRET12KEYSECRET12KEYSECRET12KEY123456tareq23";
-	private long jwtExpirationInMs = 60*60*1000;
+	private long jwtExpirationInMs = 60*60*10000;
 	
 	
 	public String generateJwtToken(UserDetails userDetails)

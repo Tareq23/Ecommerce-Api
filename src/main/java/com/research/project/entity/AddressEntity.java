@@ -2,6 +2,8 @@ package com.research.project.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -20,11 +24,35 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.research.project.entity.ProductEntity;
+import com.research.project.projections.AddressProjection;
+import com.research.project.projections.ProductProjection;
 import com.research.project.security.entity.UserEntity;
 
 
 @Entity(name = "addresses")
 @Table(name = "addresses")
+
+
+//@NamedNativeQuery get all address by user id
+@NamedNativeQuery(
+		name = "AddressEntity.getSpecificUserAddress",
+		query = "SELECT a.id, a.email, a.phone_number as phoneNumber, a.division, a.district, "+
+						"a.sub_district as subDistrict, a.is_default as isDefault, a.zip_code as zipCode "+
+		"from addresses a "+
+//		"inner join users u "+
+//			"on a.user_id =  u.id "+
+//		"where u.id = :userId",
+		"where a.user_id = :userId order by a.id desc",
+		resultSetMapping = "Mapping.getSpecificUserAddress"
+		)
+//@SqlResultSetMapping get all address by user id
+@SqlResultSetMapping(name = "Mapping.getSpecificUserAddress", classes = @ConstructorResult(targetClass = AddressProjection.class, columns = {
+		@ColumnResult(name = "id"), @ColumnResult(name = "email"), @ColumnResult(name = "phoneNumber"),
+		@ColumnResult(name = "division"), @ColumnResult(name = "district"),  
+		@ColumnResult(name = "subDistrict"), @ColumnResult(name = "isDefault"),  @ColumnResult(name = "zipCode")
+}))
+
+
 public class AddressEntity {
 	
 	

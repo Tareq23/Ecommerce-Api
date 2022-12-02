@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -24,7 +25,11 @@ public class CartEntity {
 	private long id;
 	private Integer productQuantity;
 	private Float productPrice;
-	private long productId;
+
+	
+	@OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+	private ProductEntity product;
 	
 	@Column(nullable = true)
 	private String createdAt;
@@ -38,13 +43,13 @@ public class CartEntity {
 	private UserEntity user;
 
 
-	public CartEntity(long id, Integer productQuantity, Float productPrice, long productId, String createdAt,
+	public CartEntity(long id, Integer productQuantity, Float productPrice, ProductEntity product, String createdAt,
 			String updatedAt, UserEntity user) {
 		super();
 		this.id = id;
 		this.productQuantity = productQuantity;
 		this.productPrice = productPrice;
-		this.productId = productId;
+		this.product = product;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.user = user;
@@ -72,8 +77,8 @@ public class CartEntity {
 	}
 
 
-	public long getProductId() {
-		return productId;
+	public ProductEntity getProduct() {
+		return product;
 	}
 
 
@@ -107,8 +112,8 @@ public class CartEntity {
 	}
 
 
-	public void setProductId(long productId) {
-		this.productId = productId;
+	public void setProduct(ProductEntity product) {
+		this.product = product;
 	}
 
 
@@ -125,6 +130,8 @@ public class CartEntity {
 	public void setUser(UserEntity user) {
 		this.user = user;
 	}
+
+
 	
 	
 
