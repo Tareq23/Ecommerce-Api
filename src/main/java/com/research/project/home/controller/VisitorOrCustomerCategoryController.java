@@ -1,6 +1,7 @@
 package com.research.project.home.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,11 @@ public class VisitorOrCustomerCategoryController {
 	
 	
 
-	@GetMapping(path = "/only-category")
-	public ResponseEntity<List<CategoryEntity>> showOnlyCategory()
-	{
-		return ResponseEntity.ok().body(categoryRepository.getOnlyCategory());
-	}
+//	@GetMapping(path = "/only-category")
+//	public ResponseEntity<Set<CategoryEntity>> showOnlyCategory()
+//	{
+//		return ResponseEntity.ok().body(categoryRepository.getOnlyCategory());
+//	}
 
 
 }

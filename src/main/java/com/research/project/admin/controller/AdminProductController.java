@@ -7,6 +7,9 @@ import javax.websocket.server.PathParam;
 
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -70,13 +73,44 @@ public class AdminProductController {
 		return ResponseEntity.ok().body(productRepository.findAll());
 	}
 	
+	
+	
+	
+	@GetMapping("/view/all/category/{id}")
+	public <T> Object showAllProductByCategory(@PathVariable("id") Long id)
+	{
+//		int page = 0;
+//		int size = 3;
+//		System.out.println("showAllProductByCategory ------------------------> "+id);
+//		Pageable  pageable = PageRequest.of(page, size, Sort.by("level").descending());
+//	
+//		return ResponseEntity.ok().body(productRepository.getProductByCategoryId(id,pageable));
+		return ResponseEntity.ok().body(productRepository.getProductByCategoryId(id));
+	}
+	
+	
+	@GetMapping("/view/all/brand/{id}")
+	public <T> Object showAllProductByBrand(@PathVariable("id") Long id)
+	{
+//		int page = 0;
+//		int size = 3;
+//		System.out.println("showAllProductByCategory ------------------------> "+id);
+//		Pageable  pageable = PageRequest.of(page, size, Sort.by("level").descending());
+//	
+//		return ResponseEntity.ok().body(productRepository.getProductByCategoryId(id,pageable));
+		return ResponseEntity.ok().body(productRepository.getProductByBrandId(id));
+	}
+	
+	
+	
 	@GetMapping("/view/details/{id}")
 	public <T> Object productDetails(@PathVariable("id") Long id)
 	{
 //		return "Product Details";
 		System.out.println("Product Id ----------------> "+id);
 //		return ResponseEntity.ok().body(productRepository.findById(id).get());
-		return ResponseEntity.ok().body(productRepository.getSingleProductById(id));
+//		return ResponseEntity.ok().body(productRepository.getSingleProductById(id));
+		return ResponseEntity.ok().body(productRepository.getProductById(id));
 		
 	}
 	
@@ -126,7 +160,7 @@ public class AdminProductController {
 //				return ResponseEntity.accepted().body(productRepository.updateProduct(product.getId(), product.getName(), product.getDescription(),product.getImageUrl(),product.getCategory().getId()));
 			}
 		}
-		return ResponseEntity.accepted().body(productRepository.updateProduct(product.getId(), product.getName(),product.getPrice(), product.getDescription(),product.getImageUrl(),product.getCategory().getId()));
+		return ResponseEntity.accepted().body(productRepository.updateProduct(product.getId(), product.getName(),product.getRegularPrice(), product.getDescription(),product.getImageUrl(),product.getCategory().getId()));
 		
 	}
 	

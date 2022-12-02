@@ -1,6 +1,7 @@
 package com.research.project.admin.controller;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.http.HttpRequest;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -70,25 +71,26 @@ public class AdminCategoryController {
 	}
 	
 	
-	@GetMapping("/all-only-category")
-	public <T> Object showAllCategoryOnly()
-	{
-		return ResponseEntity.ok().body(categoryRepository.getOnlyCategory());
-	}
+//	@GetMapping("/all-only-category")
+//	public <T> Object showAllCategoryOnly()
+//	{
+//		return ResponseEntity.ok().body(categoryRepository.getOnlyCategory());
+//	}
 	
 	@GetMapping("/show/{category-id}/products")
 	public <T> Object showSingleCategoryProduct(@PathVariable("category-id") Long id)
 	{
 		return ResponseEntity.ok().body(categoryRepository.findById(id));
+//		return ResponseEntity.ok().body(categoryRepository.getProductByCategoryId(id));
 	}
 	
 	
 	
-	@GetMapping("/show/{category-id}")
-	public <T> Object showCategory(@PathVariable("category-id") Long id)
-	{
-		return ResponseEntity.ok().body(categoryRepository.findOnlyCategory(id));
-	}
+//	@GetMapping("/show/{category-id}")
+//	public <T> Object showCategory(@PathVariable("category-id") BigInteger id)
+//	{
+//		return ResponseEntity.ok().body(categoryRepository.findOnlyCategory(id));
+//	}
 	
 	
 	
