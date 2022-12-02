@@ -70,7 +70,7 @@ public class AdminProductController {
 	{
 //		return ResponseEntity.ok().body(productRepository.findAll());
 //		return "View all Product";
-		return ResponseEntity.ok().body(productRepository.findAll());
+		return ResponseEntity.ok().body(productRepository.findAll(Sort.by(Sort.Direction.DESC, "id")));
 	}
 	
 	
@@ -86,6 +86,19 @@ public class AdminProductController {
 //	
 //		return ResponseEntity.ok().body(productRepository.getProductByCategoryId(id,pageable));
 		return ResponseEntity.ok().body(productRepository.getProductByCategoryId(id));
+	}
+	
+	@GetMapping("/view/by-product-name")
+	public <T> Object showAllProductSearchByName(@RequestParam(name="name") String productName)
+	{
+//		int page = 0;
+//		int size = 3;
+//		System.out.println("showAllProductByCategory ------------------------> "+id);
+//		Pageable  pageable = PageRequest.of(page, size, Sort.by("level").descending());
+//	
+//		return ResponseEntity.ok().body(productRepository.getProductByCategoryId(id,pageable));
+		System.out.println("product name ---------------> : "+productName);
+		return ResponseEntity.ok().body(productRepository.getProductByName(productName));
 	}
 	
 	
@@ -117,12 +130,22 @@ public class AdminProductController {
 	@DeleteMapping("/delete")
 	public <T> Object deleteProduct(@RequestBody ProductEntity product) throws IOException
 	{
+		if(product.getImageUrl() == null) {
+			product.setImageUrl("http://localhost:8080/images/1668336904674.jpg");
+		}
 		if(new ImageUploadHelper().deleteFile(product.getImageUrl()))
 		{
 			productRepository.delete(product);
 			return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		}
-		return new ResponseEntity<Error>(HttpStatus.INTERNAL_SERVER_ERROR);
+		else {
+			productRepository.delete(product);
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		}
+		
+//		productRepository.delete(product);
+//		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//		return new ResponseEntity<Error>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@PutMapping("/update")

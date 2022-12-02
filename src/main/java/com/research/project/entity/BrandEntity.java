@@ -45,7 +45,7 @@ public class BrandEntity {
 	
 	
 	
-	@JsonManagedReference
+	@JsonManagedReference(value = "brand-movement")
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "brand")
 	private Set<ProductEntity> products;
 

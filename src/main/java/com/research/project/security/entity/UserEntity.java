@@ -1,6 +1,7 @@
 package com.research.project.security.entity;
 
-import java.util.ArrayList;
+
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,7 +61,7 @@ public class UserEntity {
 	
 	
 
-	@JsonManagedReference
+	@JsonManagedReference(value = "user-product-movement")
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<ProductEntity> products;
 	

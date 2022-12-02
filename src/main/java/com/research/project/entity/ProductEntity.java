@@ -55,10 +55,30 @@ import com.research.project.security.entity.UserEntity;
 		"where p.id = :id",
 		resultSetMapping = "Mapping.getProductById"
 		)
-
-
 // @SqlResultSetMapping get product by product id
 @SqlResultSetMapping(name = "Mapping.getProductById", classes = @ConstructorResult(targetClass = ProductProjection.class, columns = {
+		@ColumnResult(name = "id"), @ColumnResult(name = "name"), @ColumnResult(name = "regularPrice"),
+		@ColumnResult(name = "discountPrice"), @ColumnResult(name = "imageUrl"),  
+		@ColumnResult(name = "quantity"), @ColumnResult(name = "description"),  @ColumnResult(name = "categoryId"),@ColumnResult(name = "categoryName"),
+		@ColumnResult(name = "brandId"),@ColumnResult(name = "brandName")
+}))
+
+
+//@NamedNativeQuery get product search by product name
+@NamedNativeQuery(
+		name = "ProductEntity.getProductByName",
+		query = "SELECT p.id, p.name, p.regular_price as regularPrice, p.discount_price as discountPrice, p.image_url as imageUrl, p.quantity, p.description, "+
+				"c.id as categoryId, c.name as categoryName, b.id as brandId, b.name as brandName "+
+				"from products p "+
+				"inner join categories c "+
+				"on p.category_id =  c.id "+
+				"inner join brands b "+
+				"on p.brand_id = b.id "+
+				"where p.name like %?0",
+				resultSetMapping = "Mapping.getProductByName"
+		)
+// @SqlResultSetMapping get product search by product name
+@SqlResultSetMapping(name = "Mapping.getProductByName", classes = @ConstructorResult(targetClass = ProductProjection.class, columns = {
 		@ColumnResult(name = "id"), @ColumnResult(name = "name"), @ColumnResult(name = "regularPrice"),
 		@ColumnResult(name = "discountPrice"), @ColumnResult(name = "imageUrl"),  
 		@ColumnResult(name = "quantity"), @ColumnResult(name = "description"),  @ColumnResult(name = "categoryId"),@ColumnResult(name = "categoryName"),
@@ -137,7 +157,7 @@ public class ProductEntity {
 	@Transient
 	private long categoryId;
 	
-	@JsonBackReference
+	@JsonBackReference(value="category-movement")
 	@ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
 	private CategoryEntity category;
@@ -145,15 +165,23 @@ public class ProductEntity {
 	
 	
 	
-	@JsonBackReference
+	@JsonBackReference(value="brand-movement")
 	@ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
 	@JoinColumn(name = "brand_id")
 	private BrandEntity brand;
 	
-	@JsonBackReference
+	@JsonBackReference(value="user-product-movement")
 	@ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
+
+	
+	
+	
+	public ProductEntity(long id) {
+		super();
+		this.id = id;
+	}
 
 	public ProductEntity(long id, String name, float regularPrice, float discountPrice, String imageUrl,
 			Integer quantity, String createdAt, String updatedAt, String description, long categoryId,

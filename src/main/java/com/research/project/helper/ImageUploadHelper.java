@@ -58,19 +58,25 @@ public class ImageUploadHelper{
 //		return "error";
 	}
 	
-	public boolean deleteFile(String imageUrl) throws IOException
+	public boolean deleteFile(String imageUrl)
 	{
 		
 		String ss[] = imageUrl.split("/");
 		String fileName = ss[ss.length-1];
 		
-		File file = new ClassPathResource("static/images/"+fileName).getFile();
-//		System.out.println("Directory path file exists : "+file.exists());
-		if(file.exists()) {
-			if(file.delete()) {
-				return true;
+		File file;
+		try {
+			file = new ClassPathResource("static/images/"+fileName).getFile();
+			if(file.exists()) {
+				if(file.delete()) {
+					return true;
+				}
 			}
+		} catch (IOException e) {
+			return false;
 		}
+//		System.out.println("Directory path file exists : "+file.exists());
+		
 		return false;
 	}
 	

@@ -47,4 +47,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>{
 	@Query(nativeQuery = true)
 	List<ProductProjection> getProductByBrandId(Long id);
 	
+	
+	@Query(nativeQuery = true)
+	List<ProductProjection> getProductByName(String productName);
+	
 }
