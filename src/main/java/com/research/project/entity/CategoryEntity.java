@@ -28,10 +28,6 @@ public class CategoryEntity {
 
 	private String imageUrl;
 
-	@Column(nullable = true)
-	private String createdAt;
-	@Column(nullable = true)
-	private String updatedAt;
 
 //	@Transient
 //	private boolean isImageExists;
@@ -55,71 +51,102 @@ public class CategoryEntity {
 //			inverseJoinColumns = @JoinColumn(name="product_id", referencedColumnName = "id")
 //			)
 	private Set<ProductEntity> products;
+	
+	
+	
+	
 
-public CategoryEntity(long id, String name, String imageUrl, String createdAt, String updatedAt,
-		Set<ProductEntity> products) {
-	super();
-	this.id = id;
-	this.name = name;
-	this.imageUrl = imageUrl;
-	this.createdAt = createdAt;
-	this.updatedAt = updatedAt;
-	this.products = products;
-}
+	public CategoryEntity() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-public CategoryEntity() {
-	super();
-	// TODO Auto-generated constructor stub
-}
 
-public long getId() {
-	return id;
-}
 
-public String getName() {
-	return name;
-}
 
-public String getImageUrl() {
-	return imageUrl;
-}
 
-public String getCreatedAt() {
-	return createdAt;
-}
+	public CategoryEntity(long id) {
+		super();
+		this.id = id;
+	}
 
-public String getUpdatedAt() {
-	return updatedAt;
-}
 
-public Set<ProductEntity> getProducts() {
-	return products;
-}
 
-public void setId(long id) {
-	this.id = id;
-}
 
-public void setName(String name) {
-	this.name = name;
-}
 
-public void setImageUrl(String imageUrl) {
-	this.imageUrl = imageUrl;
-}
+	public CategoryEntity(long id, String name, String imageUrl, Set<ProductEntity> products) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.imageUrl = imageUrl;
+		this.products = products;
+	}
 
-public void setCreatedAt(String createdAt) {
-	this.createdAt = createdAt;
-}
 
-public void setUpdatedAt(String updatedAt) {
-	this.updatedAt = updatedAt;
-}
 
-public void setProducts(Set<ProductEntity> products) {
-	this.products = products;
-}
 
+
+	public long getId() {
+		return id;
+	}
+
+
+
+
+
+	public String getName() {
+		return name;
+	}
+
+
+
+
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+
+
+
+
+	public Set<ProductEntity> getProducts() {
+		return products;
+	}
+
+
+
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+
+
+
+
+	public void setProducts(Set<ProductEntity> products) {
+		this.products = products;
+	}
+	
+	
 	
 
 }

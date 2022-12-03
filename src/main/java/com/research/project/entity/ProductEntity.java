@@ -108,6 +108,30 @@ import com.research.project.security.entity.UserEntity;
 
 
 
+
+//@NamedNativeQuery getProductByCategoryIdWithLimit
+@NamedNativeQuery(
+		name = "ProductEntity.getProductByCategoryIdWithLimit",
+		query = "SELECT p.id, p.name, p.regular_price as regularPrice, p.discount_price as discountPrice, p.image_url as imageUrl, p.quantity, p.description, "+
+		"c.id as categoryId, c.name as categoryName, b.id as brandId, b.name as brandName "+
+		"from products p "+
+		"inner join categories c "+
+			"on p.category_id =  c.id "+
+		"inner join brands b "+
+			"on p.brand_id = b.id "+
+		"where c.id = :id ORDER BY p.id DESC limit :limitNumber",
+		resultSetMapping = "Mapping.getProductByCategoryIdWithLimit"
+		)
+//@SqlResultSetMapping getProductByCategoryIdWithLimit
+@SqlResultSetMapping(name = "Mapping.getProductByCategoryIdWithLimit", classes = @ConstructorResult(targetClass = ProductProjection.class, columns = {
+		@ColumnResult(name = "id"), @ColumnResult(name = "name"), @ColumnResult(name = "regularPrice"),
+		@ColumnResult(name = "discountPrice"), @ColumnResult(name = "imageUrl"),  
+		@ColumnResult(name = "quantity"), @ColumnResult(name = "description"),  @ColumnResult(name = "categoryId"), @ColumnResult(name = "categoryName"),
+		@ColumnResult(name = "brandId"), @ColumnResult(name = "brandName")
+}))
+
+
+
 //@NamedNativeQuery for get products by brand id
 @NamedNativeQuery(
 		name = "ProductEntity.getProductByBrandId",

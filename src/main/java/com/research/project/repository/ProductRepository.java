@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.Column;
+import javax.persistence.Lob;
 import javax.transaction.Transactional;
 
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
@@ -44,11 +46,44 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>{
 	@Query(nativeQuery = true)
 	List<ProductProjection> getProductByCategoryId(Long id);
 	
+	
+	@Query(nativeQuery = true)
+	List<ProductProjection> getProductByCategoryIdWithLimit(Long id, Long limitNumber);
+	
 	@Query(nativeQuery = true)
 	List<ProductProjection> getProductByBrandId(Long id);
 	
 	
 	@Query(nativeQuery = true)
 	List<ProductProjection> getProductByName(String productName);
+	
+	
+	@Query(value="select p from products p where p.category_id = :categoryId", nativeQuery = true)
+	List<ProductProjection> getProductsForHomePage(Long categoryId);
+	
+	
+//	private long id;
+//	
+//	private String name;
+//	private float regularPrice;
+//	private float discountPrice;
+//	private String imageUrl;
+//	
+//	@Column(columnDefinition = "integer default 0")
+//	private Integer quantity;
+//	
+//	@Column(nullable = true)
+//	private String createdAt;
+//	@Column(nullable = true)
+//	private String updatedAt;
+//	
+//	
+//	@Lob
+//	private String description;
+	
+	
+//	@Query(value = "select new com.research.project.projections.ProductProjection( p.id, p.name, p.regular_price, p.discount_price, p.image_url, p.description ) from products p where p.category_id = :categoryId order by p.id desc limit 5", nativeQuery = true)
+//	@Query(value = "select p.id, p.name, p.regular_price, p.discount_price, p.image_url, p.description from products p where p.category_id = :categoryId order by p.id desc limit 5", nativeQuery = true)
+//	List<ProductProjection> getProductsForHome(long categoryId);
 	
 }

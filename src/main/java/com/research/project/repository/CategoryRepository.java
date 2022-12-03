@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.research.project.entity.CategoryEntity;
 import com.research.project.model.home.CategoryModel;
+import com.research.project.projections.CategoryProjection;
 import com.research.project.projections.ProductProjection;
 
 @Repository
@@ -36,8 +37,8 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
 	
 	
 	
-	
-	
+	@Query( "select new com.research.project.projections.CategoryProjection( c.id, c.name, c.imageUrl ) from categories c")
+	List<CategoryProjection> showAllCategory();
 	
 	
 }

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -36,6 +37,11 @@ public class OrderEntity {
 	
 	@Column(columnDefinition = "varchar(255) default 'pending'") // success,
 	private String paymentStatus;
+	
+	@OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+	private AddressEntity address;
+	
 	
 	@Column(nullable = true)
 	private String createdAt;
@@ -82,6 +88,22 @@ public class OrderEntity {
 		this.id = id;
 		this.orderStatus = orderStatus;
 		this.paymentStatus = paymentStatus;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.user = user;
+		this.details = details;
+	}
+	
+	
+
+
+	public OrderEntity(long id, String orderStatus, String paymentStatus, AddressEntity address, String createdAt,
+			String updatedAt, UserEntity user, Set<OrderDetailsEntity> details) {
+		super();
+		this.id = id;
+		this.orderStatus = orderStatus;
+		this.paymentStatus = paymentStatus;
+		this.address = address;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.user = user;
@@ -142,6 +164,16 @@ public class OrderEntity {
 
 	public void setDetails(Set<OrderDetailsEntity> details) {
 		this.details = details;
+	}
+
+
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
 	}
 
 	

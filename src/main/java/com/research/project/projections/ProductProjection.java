@@ -19,6 +19,20 @@ public class ProductProjection {
 	
 	
 	
+	
+	
+	public ProductProjection(BigInteger id, String name, float regularPrice, float discountPrice, String imageUrl,
+			String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.regularPrice = regularPrice;
+		this.discountPrice = discountPrice;
+		this.imageUrl = imageUrl;
+		this.description = description;
+	}
+
+
 	public ProductProjection(BigInteger id, String name, float regularPrice, float discountPrice, String imageUrl,
 			Integer quantity, String description, BigInteger categoryId, String categoryName,
 			BigInteger brandId, String brandName) {
