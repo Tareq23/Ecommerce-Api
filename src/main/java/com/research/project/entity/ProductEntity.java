@@ -1,5 +1,7 @@
 package com.research.project.entity;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
@@ -21,6 +23,7 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.research.project.projections.ProductDTO;
 import com.research.project.projections.ProductProjection;
 import com.research.project.security.entity.UserEntity;
@@ -168,6 +171,9 @@ public class ProductEntity {
 	@Column(columnDefinition = "integer default 0")
 	private Integer quantity;
 	
+	@Column(columnDefinition = "float default 2.5")
+	private float rating;
+	
 	@Column(nullable = true)
 	private String createdAt;
 	@Column(nullable = true)
@@ -199,6 +205,10 @@ public class ProductEntity {
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
 
+	
+	@JsonManagedReference(value = "review-movement")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "product")
+	private Set<ReviewEntity> review;
 	
 	
 	

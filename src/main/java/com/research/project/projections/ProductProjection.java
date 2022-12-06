@@ -1,6 +1,9 @@
 package com.research.project.projections;
 
 import java.math.BigInteger;
+import java.util.List;
+
+import com.research.project.entity.ReviewEntity;
 
 public class ProductProjection {
 	
@@ -15,6 +18,8 @@ public class ProductProjection {
 	private BigInteger brandId;
 	private String categoryName;
 	private String brandName;
+	
+	private List<ReviewEntity> review;
 	
 	
 	
@@ -66,6 +71,19 @@ public class ProductProjection {
 	}
 	
 	
+	
+	
+	
+	public List<ReviewEntity> getReview() {
+		return review;
+	}
+
+
+	public void setReview(List<ReviewEntity> review) {
+		this.review = review;
+	}
+
+
 	public BigInteger getId() {
 		return id;
 	}

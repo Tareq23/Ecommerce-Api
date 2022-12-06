@@ -42,7 +42,7 @@ public class CategoryEntity {
 //		this.imageUrl = imageUrl;
 //	}
 
-	@JsonManagedReference(value = "category-movement")
+//	@JsonManagedReference(value = "category-movement")
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "category")
 //	@Cascade({ CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 //	@JoinTable(

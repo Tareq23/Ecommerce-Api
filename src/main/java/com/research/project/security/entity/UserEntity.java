@@ -28,6 +28,7 @@ import com.research.project.entity.CartEntity;
 import com.research.project.entity.ContactEntity;
 import com.research.project.entity.OrderEntity;
 import com.research.project.entity.ProductEntity;
+import com.research.project.entity.ReviewEntity;
 
 @Entity(name = "users")
 @Table(name = "users")
@@ -81,6 +82,11 @@ public class UserEntity {
 	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<OrderEntity> orders;
+	
+	
+	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<ReviewEntity> review;
 
 
 	public UserEntity(long id, String firstName, String lastName, String username, String password, String phoneNumber,

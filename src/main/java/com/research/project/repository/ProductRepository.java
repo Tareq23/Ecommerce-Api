@@ -62,6 +62,12 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>{
 	List<ProductProjection> getProductsForHomePage(Long categoryId);
 	
 	
+	List<ProductEntity> findByNameContaining(String name);
+	
+	
+//	List<ProductProjection> getProductsForHomePage(Long categoryId);
+	
+	
 //	private long id;
 //	
 //	private String name;
