@@ -71,11 +71,11 @@ public class AdminCategoryController {
 	}
 	
 	
-//	@GetMapping("/all-only-category")
-//	public <T> Object showAllCategoryOnly()
-//	{
-//		return ResponseEntity.ok().body(categoryRepository.getOnlyCategory());
-//	}
+	@GetMapping("/show-only-category")
+	public <T> Object showAllCategoryOnly()
+	{
+		return ResponseEntity.ok().body(categoryRepository.getAllCategory());
+	}
 	
 	@GetMapping("/show/{category-id}/products")
 	public <T> Object showSingleCategoryProduct(@PathVariable("category-id") Long id)

@@ -41,4 +41,6 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
 	List<CategoryProjection> showAllCategory();
 	
 	
+	@Query("select new com.research.project.entity.CategoryEntity( c.id, c.name, c.imageUrl, count(p.category) ) from categories c inner join c.products p group by c.id")
+	List<CategoryEntity> getAllCategory();
 }

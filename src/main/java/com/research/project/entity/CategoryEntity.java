@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -27,6 +28,9 @@ public class CategoryEntity {
 	private String name;
 
 	private String imageUrl;
+	
+	@Transient
+	private long numberOfProducts;
 
 
 //	@Transient
@@ -74,12 +78,60 @@ public class CategoryEntity {
 
 
 
+	public CategoryEntity(long id, String name, String imageUrl) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.imageUrl = imageUrl;
+	}
+
+
+
+
+
 	public CategoryEntity(long id, String name, String imageUrl, Set<ProductEntity> products) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.imageUrl = imageUrl;
 		this.products = products;
+	}
+
+
+
+
+	
+
+	public CategoryEntity(long id, String name, String imageUrl, long numberOfProducts) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.imageUrl = imageUrl;
+		this.numberOfProducts = numberOfProducts;
+	}
+
+
+
+
+	
+
+	
+
+
+
+
+
+	@Transient
+	public long getNumberOfProducts() {
+		return numberOfProducts;
+	}
+
+
+
+
+
+	public void setNumberOfProducts(long numberOfProducts) {
+		this.numberOfProducts = numberOfProducts;
 	}
 
 

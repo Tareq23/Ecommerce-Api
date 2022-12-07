@@ -43,7 +43,8 @@ public class ReviewEntity {
 	private Set<ReviewImageEntity> reviewImage;
 	
 	
-	@JsonBackReference(value="review-user-movement")
+//	@JsonBackReference(value="review-user-movement")
+	@JsonBackReference()
 	@ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
