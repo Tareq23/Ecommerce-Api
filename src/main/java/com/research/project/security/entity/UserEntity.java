@@ -43,6 +43,9 @@ public class UserEntity {
 	private String password;
 	private String phoneNumber;
 	
+	@Column(nullable = true)
+	private String dateOfBirth;
+	
 	
 	@Column(nullable = true)
 	private String createdAt;
@@ -87,6 +90,34 @@ public class UserEntity {
 	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<ReviewEntity> review;
+
+
+	
+	
+	
+	
+	public UserEntity(long id, String firstName, String lastName, String username, String password, String phoneNumber,
+			String dateOfBirth, String createdAt, String updatedAt, Set<RoleEntity> roles, Set<ProductEntity> products,
+			Set<AddressEntity> addresses, Set<CartEntity> carts, Set<ContactEntity> contacts, Set<OrderEntity> orders,
+			Set<ReviewEntity> review) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.phoneNumber = phoneNumber;
+		this.dateOfBirth = dateOfBirth;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.roles = roles;
+		this.products = products;
+		this.addresses = addresses;
+		this.carts = carts;
+		this.contacts = contacts;
+		this.orders = orders;
+		this.review = review;
+	}
 
 
 	public UserEntity(long id, String firstName, String lastName, String username, String password, String phoneNumber,
@@ -253,6 +284,26 @@ public class UserEntity {
 
 	public void setOrders(Set<OrderEntity> orders) {
 		this.orders = orders;
+	}
+
+
+	public Set<ReviewEntity> getReview() {
+		return review;
+	}
+
+
+	public void setReview(Set<ReviewEntity> review) {
+		this.review = review;
+	}
+
+
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 
 	

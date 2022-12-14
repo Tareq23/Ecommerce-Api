@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.research.project.entity.AddressEntity;
 import com.research.project.entity.OrderDetailsEntity;
 import com.research.project.entity.OrderEntity;
+import com.research.project.repository.AddressRepository;
+import com.research.project.repository.CartRepository;
 import com.research.project.repository.OrderDetailsRepository;
 import com.research.project.repository.OrderRepository;
 import com.research.project.security.entity.UserEntity;
@@ -33,6 +36,12 @@ public class OrderDetailsController {
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private AddressRepository addressRepository;
+	
+	@Autowired
+	private CartRepository cartRepository;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -63,6 +72,9 @@ public class OrderDetailsController {
 	public <T> Object addOrder(@RequestBody List<OrderDetailsEntity> detailsOrders) {
 		
 		OrderEntity order = new OrderEntity();
+		AddressEntity address = new AddressEntity();
+		address = addressRepository.findDefaultAddressByUser(this.auth(),true);
+		order.setAddress(address);
 		order.setUser(this.auth());
 		order.setCreatedAt(LocalDate.now().toString());
 		order = orderRepository.save(order);
@@ -73,7 +85,9 @@ public class OrderDetailsController {
 			detailsOrders.set(i, orderDetailsRepository.save(detailsOrders.get(i)));
 		}
 		
-		return ResponseEntity.ok().body(detailsOrders);
+		cartRepository.deleteByUser(this.auth());
+		
+		return ResponseEntity.ok().body(order);
 		
 	}
 	

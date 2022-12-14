@@ -17,6 +17,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 //import org.springframework.transaction.annotation.Transactional;
 
+import com.research.project.entity.BrandEntity;
 import com.research.project.entity.CategoryEntity;
 import com.research.project.entity.ProductEntity;
 import com.research.project.model.ProductModel;
@@ -63,6 +64,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>{
 	
 	
 	List<ProductEntity> findByNameContaining(String name);
+	
+	List<ProductEntity> findByBrand(BrandEntity brand);
 	
 	
 //	List<ProductProjection> getProductsForHomePage(Long categoryId);

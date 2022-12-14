@@ -86,11 +86,11 @@ public class AdminCategoryController {
 	
 	
 	
-//	@GetMapping("/show/{category-id}")
-//	public <T> Object showCategory(@PathVariable("category-id") BigInteger id)
-//	{
-//		return ResponseEntity.ok().body(categoryRepository.findOnlyCategory(id));
-//	}
+	@GetMapping("/show/{category-id}")
+	public <T> Object showCategory(@PathVariable("category-id") Long id)
+	{
+		return ResponseEntity.ok().body(categoryRepository.findById(id));
+	}
 	
 	
 	

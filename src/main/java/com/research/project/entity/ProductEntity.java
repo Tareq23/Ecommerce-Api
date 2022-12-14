@@ -17,6 +17,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -31,7 +32,8 @@ import com.research.project.security.entity.UserEntity;
 
 @Entity(name = "products")
 @Table(name = "products")
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(value= {"handler","hibernateLazyInitializer","fieldHandler"})
 @NamedNativeQuery(name = "ProductEntity.getSingleProductById", 
 		query = "SELECT p.id, p.name, p.image_url as imageUrl, p.price, p.description, c.id as "+
 		"categoryId, c.name as categoryName, c.image_url as categoryImageUrl FROM  products "+
@@ -193,6 +195,10 @@ public class ProductEntity {
 	private CategoryEntity category;
 	
 	
+	@JsonBackReference
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "product", orphanRemoval = true)
+	private CartEntity carts;
+	
 	
 	
 	@JsonBackReference(value="brand-movement")
@@ -207,7 +213,7 @@ public class ProductEntity {
 
 	
 	@JsonManagedReference(value = "review-movement")
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "product")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "product", orphanRemoval = true)
 	private Set<ReviewEntity> review;
 	
 	
@@ -216,6 +222,32 @@ public class ProductEntity {
 		super();
 		this.id = id;
 	}
+	
+	
+
+	public ProductEntity(long id, String name, float regularPrice, float discountPrice, String imageUrl,
+			Integer quantity, float rating, String createdAt, String updatedAt, String description, long categoryId,
+			CategoryEntity category, CartEntity carts, BrandEntity brand, UserEntity user, Set<ReviewEntity> review) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.regularPrice = regularPrice;
+		this.discountPrice = discountPrice;
+		this.imageUrl = imageUrl;
+		this.quantity = quantity;
+		this.rating = rating;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.description = description;
+		this.categoryId = categoryId;
+		this.category = category;
+		this.carts = carts;
+		this.brand = brand;
+		this.user = user;
+		this.review = review;
+	}
+
+
 
 	public ProductEntity(long id, String name, float regularPrice, float discountPrice, String imageUrl,
 			Integer quantity, String createdAt, String updatedAt, String description, long categoryId,
@@ -343,6 +375,42 @@ public class ProductEntity {
 
 	public void setUser(UserEntity user) {
 		this.user = user;
+	}
+
+
+
+	public float getRating() {
+		return rating;
+	}
+
+
+
+	public CartEntity getCarts() {
+		return carts;
+	}
+
+
+
+	public Set<ReviewEntity> getReview() {
+		return review;
+	}
+
+
+
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
+
+
+
+	public void setCarts(CartEntity carts) {
+		this.carts = carts;
+	}
+
+
+
+	public void setReview(Set<ReviewEntity> review) {
+		this.review = review;
 	}
 	
 	

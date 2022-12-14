@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.research.project.entity.AddressEntity;
 import com.research.project.entity.CartEntity;
+import com.research.project.entity.ProductEntity;
 import com.research.project.repository.CartRepository;
 import com.research.project.security.entity.UserEntity;
 import com.research.project.security.repository.UserRepository;
@@ -65,7 +66,7 @@ public class CartController {
 	@DeleteMapping("/delete")
 	public <T> Object delete(@RequestBody CartEntity cart)
 	{
-		cartRepository.delete(cart);
+		cartRepository.deleteByCartId(cart.getId());
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 	

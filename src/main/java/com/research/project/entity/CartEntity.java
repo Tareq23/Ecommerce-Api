@@ -13,10 +13,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.research.project.security.entity.UserEntity;
 
 @Entity(name = "carts")
 @Table(name = "carts")
+//@JsonIgnoreProperties(value= {"handler","hibernateLazyInitializer","fieldHandler"})
 public class CartEntity {
 	
 	
@@ -27,6 +30,7 @@ public class CartEntity {
 	private Float productPrice;
 
 	
+	@JsonManagedReference
 	@OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
 	private ProductEntity product;
@@ -38,7 +42,7 @@ public class CartEntity {
 	
 	
 	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
 

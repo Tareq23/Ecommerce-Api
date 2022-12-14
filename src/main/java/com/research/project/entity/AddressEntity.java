@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedNativeQuery;
@@ -37,7 +38,7 @@ import com.research.project.security.entity.UserEntity;
 @NamedNativeQuery(
 		name = "AddressEntity.getSpecificUserAddress",
 		query = "SELECT a.id, a.email, a.phone_number as phoneNumber, a.division, a.district, "+
-						"a.sub_district as subDistrict, a.is_default as isDefault, a.zip_code as zipCode "+
+						"a.sub_district as subDistrict, a.current_address as isDefault, a.zip_code as zipCode "+
 		"from addresses a "+
 //		"inner join users u "+
 //			"on a.user_id =  u.id "+
@@ -60,14 +61,19 @@ public class AddressEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+
+	private String name;
 	private String email;
 	private String phoneNumber;
 	private String division;
 	private String district;
 	private String subDistrict;
 	
+	@Lob
+	private String details;
+	
 	@Column(columnDefinition = "boolean default false")
-	private boolean isDefault;
+	private boolean currentAddress;
 	
 	@Column(nullable = true)
 	private String zipCode;
@@ -79,16 +85,29 @@ public class AddressEntity {
 	private UserEntity user;
 
 
-	public AddressEntity(long id, String email, String phoneNumber, String division, String district,
-			String subDistrict, boolean isDefault, String zipCode, UserEntity user) {
+	
+	
+	
+
+
+	
+
+
+	
+
+
+	public AddressEntity(long id, String name, String email, String phoneNumber, String division, String district,
+			String subDistrict, String details, boolean currentAddress, String zipCode, UserEntity user) {
 		super();
 		this.id = id;
+		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.division = division;
 		this.district = district;
 		this.subDistrict = subDistrict;
-		this.isDefault = isDefault;
+		this.details = details;
+		this.currentAddress = currentAddress;
 		this.zipCode = zipCode;
 		this.user = user;
 	}
@@ -97,6 +116,18 @@ public class AddressEntity {
 	public AddressEntity() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	
+	
+
+	public boolean isCurrentAddress() {
+		return currentAddress;
+	}
+
+
+	public void setCurrentAddress(boolean currentAddress) {
+		this.currentAddress = currentAddress;
 	}
 
 
@@ -130,10 +161,7 @@ public class AddressEntity {
 	}
 
 
-	public boolean isDefault() {
-		return isDefault;
-	}
-
+	
 
 	public String getZipCode() {
 		return zipCode;
@@ -176,7 +204,7 @@ public class AddressEntity {
 
 
 	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
+		this.currentAddress = isDefault;
 	}
 
 
@@ -187,6 +215,26 @@ public class AddressEntity {
 
 	public void setUser(UserEntity user) {
 		this.user = user;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getDetails() {
+		return details;
+	}
+
+
+	public void setDetails(String details) {
+		this.details = details;
 	}
 
 	

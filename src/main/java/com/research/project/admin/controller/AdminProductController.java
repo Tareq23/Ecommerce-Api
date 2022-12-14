@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.research.project.entity.BrandEntity;
 import com.research.project.entity.CategoryEntity;
 import com.research.project.entity.ProductEntity;
 import com.research.project.helper.ImageUploadHelper;
@@ -111,7 +112,10 @@ public class AdminProductController {
 //		Pageable  pageable = PageRequest.of(page, size, Sort.by("level").descending());
 //	
 //		return ResponseEntity.ok().body(productRepository.getProductByCategoryId(id,pageable));
-		return ResponseEntity.ok().body(productRepository.getProductByBrandId(id));
+//		return ResponseEntity.ok().body(productRepository.getProductByBrandId(id));
+		BrandEntity brand = new BrandEntity();
+		brand.setId(id);
+		return ResponseEntity.ok().body(productRepository.findByBrand(brand));
 	}
 	
 	
@@ -130,18 +134,21 @@ public class AdminProductController {
 	@DeleteMapping("/delete")
 	public <T> Object deleteProduct(@RequestBody ProductEntity product) throws IOException
 	{
-		if(product.getImageUrl() == null) {
-			product.setImageUrl("http://localhost:8080/images/1668336904674.jpg");
-		}
-		if(new ImageUploadHelper().deleteFile(product.getImageUrl()))
-		{
-			productRepository.delete(product);
-			return new ResponseEntity<>(HttpStatus.ACCEPTED);
-		}
-		else {
-			productRepository.delete(product);
-			return new ResponseEntity<>(HttpStatus.ACCEPTED);
-		}
+//		if(product.getImageUrl() == null) {
+//			product.setImageUrl("http://localhost:8080/images/1668336904674.jpg");
+//		}
+//		if(new ImageUploadHelper().deleteFile(product.getImageUrl()))
+//		{
+//			productRepository.delete(product);
+//			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//		}
+//		else {
+//			productRepository.delete(product);
+//			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//		}
+		
+		productRepository.delete(product);
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		
 //		productRepository.delete(product);
 //		return new ResponseEntity<>(HttpStatus.ACCEPTED);
@@ -183,7 +190,9 @@ public class AdminProductController {
 //				return ResponseEntity.accepted().body(productRepository.updateProduct(product.getId(), product.getName(), product.getDescription(),product.getImageUrl(),product.getCategory().getId()));
 			}
 		}
-		return ResponseEntity.accepted().body(productRepository.updateProduct(product.getId(), product.getName(),product.getRegularPrice(), product.getDescription(),product.getImageUrl(),product.getCategory().getId()));
+		System.out.println("------------> product update id : "+product.getId());
+//		return ResponseEntity.accepted().body(productRepository.updateProduct(product.getId(), product.getName(),product.getRegularPrice(), product.getDescription(),product.getImageUrl(),product.getCategory().getId()));
+		return ResponseEntity.accepted().body(productRepository.save(product));
 		
 	}
 	
