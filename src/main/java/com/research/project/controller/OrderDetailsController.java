@@ -2,6 +2,7 @@ package com.research.project.controller;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.research.project.entity.AddressEntity;
 import com.research.project.entity.OrderDetailsEntity;
 import com.research.project.entity.OrderEntity;
+import com.research.project.entity.ProductEntity;
+import com.research.project.entity.ReviewEntity;
 import com.research.project.repository.AddressRepository;
 import com.research.project.repository.CartRepository;
 import com.research.project.repository.OrderDetailsRepository;
@@ -77,6 +80,7 @@ public class OrderDetailsController {
 		order.setAddress(address);
 		order.setUser(this.auth());
 		order.setCreatedAt(LocalDate.now().toString());
+		order.setPaymentStatus("pending");
 		order = orderRepository.save(order);
 		
 		for(int i=0; i<detailsOrders.size(); i++) {
@@ -89,6 +93,29 @@ public class OrderDetailsController {
 		
 		return ResponseEntity.ok().body(order);
 		
+	}
+	
+	@GetMapping("all/payment-complete")
+	public <T> Object unreviewedOrder() {
+		UserEntity user = this.auth();
+		List<OrderEntity> orders = orderRepository.findByUserAndPaymentStatus(user, "completed");
+//		List<ProductEntity> products = new ArrayList<ProductEntity>();
+//		for(OrderEntity order : orders) {
+//			for(OrderDetailsEntity detail : order.getDetails()) {
+//				boolean flag = false;
+//				for(ReviewEntity review : detail.getProduct().getReview()) {
+//					if(review.getUser().getId()== user.getId()) {
+//						flag = true;
+//						break;
+//					}
+//				}
+//				
+//				if(!flag) {
+//					products.add(detail.getProduct());
+//				}
+//			}
+//		}
+		return ResponseEntity.ok().body(orders);
 	}
 	
 	

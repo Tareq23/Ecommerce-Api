@@ -10,8 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 //import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.research.project.controller.ProductController;
@@ -79,6 +82,22 @@ public class VisitorOrCustomerHomeController {
 	public <T> Object showCategories()
 	{	
 		return ResponseEntity.ok().body(categoryRepository.showAllCategory());
+	}
+	
+	
+	@PostMapping("/product/find-by-category")
+	public <T> Object findProductByCategory(@RequestBody CategoryEntity category) {
+		
+		return ResponseEntity.ok().body(productRepository.findByCategory(category));
+		
+	}
+	
+	@PostMapping("/product/find-by-category/{startPrice}/{endPrice}")
+	public <T> Object findProductByCategoryWithPriceRange(@RequestBody CategoryEntity category, @PathVariable("startPrice") float startPrice, @PathVariable("endPrice") float endPrice) {
+		
+		return ResponseEntity.ok().body(productRepository.getProductByRegularPriceBetweenCategory(startPrice,endPrice,category));
+//		return ResponseEntity.ok().body(productRepository.findCategoryByRegularPriceBetween(category,startPrice,endPrice));
+		
 	}
 
 

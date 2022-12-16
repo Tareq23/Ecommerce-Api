@@ -68,31 +68,16 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>{
 	List<ProductEntity> findByBrand(BrandEntity brand);
 	
 	
-//	List<ProductProjection> getProductsForHomePage(Long categoryId);
+	
+	List<ProductEntity> findByCategory(CategoryEntity category);
 	
 	
-//	private long id;
-//	
-//	private String name;
-//	private float regularPrice;
-//	private float discountPrice;
-//	private String imageUrl;
-//	
-//	@Column(columnDefinition = "integer default 0")
-//	private Integer quantity;
-//	
-//	@Column(nullable = true)
-//	private String createdAt;
-//	@Column(nullable = true)
-//	private String updatedAt;
-//	
-//	
-//	@Lob
-//	private String description;
+	List<ProductEntity> findByRegularPriceBetween(float startPrice, float endPrice);
+
 	
+
+	@Query("select p from products p where p.category = ?3 and p.regularPrice between ?1 and ?2")
+	List<ProductEntity> getProductByRegularPriceBetweenCategory( float startPrice, float endPrice,CategoryEntity category);
 	
-//	@Query(value = "select new com.research.project.projections.ProductProjection( p.id, p.name, p.regular_price, p.discount_price, p.image_url, p.description ) from products p where p.category_id = :categoryId order by p.id desc limit 5", nativeQuery = true)
-//	@Query(value = "select p.id, p.name, p.regular_price, p.discount_price, p.image_url, p.description from products p where p.category_id = :categoryId order by p.id desc limit 5", nativeQuery = true)
-//	List<ProductProjection> getProductsForHome(long categoryId);
 	
 }

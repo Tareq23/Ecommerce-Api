@@ -79,6 +79,22 @@ public class ReviewEntity {
 
 
 	public ReviewEntity(long id, float ratingNumber, String details, ProductEntity product,
+			Set<ReviewImageEntity> reviewImage, UserEntity user) {
+		super();
+		this.id = id;
+		this.ratingNumber = ratingNumber;
+		this.details = details;
+		this.product = product;
+		this.reviewImage = reviewImage;
+		this.user = user;
+	}
+
+
+
+
+
+
+	public ReviewEntity(long id, float ratingNumber, String details, ProductEntity product,
 			Set<ReviewImageEntity> reviewImage) {
 		super();
 		this.id = id;
@@ -96,6 +112,26 @@ public class ReviewEntity {
 	}
 	
 	
+	
+	
+	public UserEntity getUser() {
+		return user;
+	}
+
+
+
+
+
+
+	public void setUser(UserEntity user) {
+		this.user = user;
+	}
+
+
+
+
+
+
 	public long getId() {
 		return id;
 	}

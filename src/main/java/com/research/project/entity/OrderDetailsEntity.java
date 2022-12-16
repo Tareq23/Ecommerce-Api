@@ -32,6 +32,7 @@ public class OrderDetailsEntity {
 	@OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
 	private ProductEntity product;
+	
 
 
 	public OrderDetailsEntity(long id, Integer productQuantity, Float productPrice, OrderEntity order,
@@ -43,6 +44,8 @@ public class OrderDetailsEntity {
 		this.order = order;
 		this.product = product;
 	}
+	
+	
 
 
 	public OrderDetailsEntity() {
