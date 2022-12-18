@@ -35,7 +35,7 @@ public class OrderEntity {
 	@Column(columnDefinition = "varchar(255) default 'new-order'") // confirm, cancel, success,
 	private String orderStatus;
 	
-	@Column(columnDefinition = "varchar(255) default 'pending'") // success,
+	@Column(columnDefinition = "varchar(255) default 'nothing'") // completed, pending, nothing,
 	private String paymentStatus;
 	
 	@OneToOne(cascade = CascadeType.MERGE)

@@ -1,5 +1,7 @@
 package com.research.project.entity;
 
+import java.util.Optional;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -99,9 +101,14 @@ public class OrderDetailsEntity {
 	}
 
 
+
+
 	public void setProduct(ProductEntity product) {
 		this.product = product;
 	}
+
+
+	
 
 	
 	

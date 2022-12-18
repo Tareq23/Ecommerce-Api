@@ -21,6 +21,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.research.project.entity.AddressEntity;
@@ -32,6 +33,7 @@ import com.research.project.entity.ReviewEntity;
 
 @Entity(name = "users")
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserEntity {
 	
 	@Id

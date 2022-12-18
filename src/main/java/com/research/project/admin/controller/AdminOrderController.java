@@ -20,14 +20,43 @@ public class AdminOrderController {
 	@Autowired
 	private OrderRepository orderRepository;
 	
+	
+	
+	
+	@GetMapping("/all")
+	public <T> Object all()
+	{
+		return ResponseEntity.ok().body(orderRepository.findAll());
+	}
+	
+	@GetMapping("/details/{id}")
+	public <T> Object findById(@PathVariable("id") Long orderId)
+	{
+//		return ResponseEntity.ok().body(orderRepository.findById(orderId));
+		return ResponseEntity.ok().body(orderRepository.getOrderByIdWithUser(orderId));
+	}
+	
+	
 	@PutMapping("/update/order-status")
 	public <T> Object all(@RequestBody OrderEntity order)
 	{
-		if(orderRepository.updateOrderStatus(order.getId(), order.getOrderStatus())>0) {
+		if(orderRepository.updateOrderStatus(order.getId(), order.getOrderStatus(),order.getPaymentStatus())>0) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
 		return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
+	}
+	
+	@GetMapping("/{status}")
+	public <T> Object getNewOrder(@PathVariable("status") String orderStatus)
+	{
+		return ResponseEntity.ok().body(orderRepository.findByOrderStatus(orderStatus));
+	}
+	
+	@GetMapping("/payment/{status}")
+	public <T> Object getOrderByPaymentStatus(@PathVariable("status") String paymentStatus)
+	{
+		return ResponseEntity.ok().body(orderRepository.findByPaymentStatus(paymentStatus));
 	}
 
 }

@@ -94,9 +94,8 @@ public class VisitorOrCustomerHomeController {
 	
 	@PostMapping("/product/find-by-category/{startPrice}/{endPrice}")
 	public <T> Object findProductByCategoryWithPriceRange(@RequestBody CategoryEntity category, @PathVariable("startPrice") float startPrice, @PathVariable("endPrice") float endPrice) {
-		
-		return ResponseEntity.ok().body(productRepository.getProductByRegularPriceBetweenCategory(startPrice,endPrice,category));
-//		return ResponseEntity.ok().body(productRepository.findCategoryByRegularPriceBetween(category,startPrice,endPrice));
+		System.out.println("price ranage : "+startPrice+" -> "+endPrice);
+		return ResponseEntity.ok().body(productRepository.getProductByRegularPriceBetweenCategory(startPrice,endPrice+1,category));
 		
 	}
 

@@ -64,7 +64,7 @@ public class OrderDetailsController {
 	@PutMapping("/update/cancel/{id}")
 	public <T> Object cancelOrder(@PathVariable(name = "id") Long id) {
 		
-		if(orderRepository.updateOrderStatus(id, "cancel")>0) {
+		if(orderRepository.updateOrderStatus(id, "cancel","nothing")>0) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
@@ -85,7 +85,7 @@ public class OrderDetailsController {
 		
 		for(int i=0; i<detailsOrders.size(); i++) {
 			detailsOrders.get(i).setOrder(order);
-		
+			
 			detailsOrders.set(i, orderDetailsRepository.save(detailsOrders.get(i)));
 		}
 		
