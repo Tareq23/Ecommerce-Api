@@ -1,6 +1,6 @@
 # Online Shopping Site
 
-In this product I used Spring Boot. Frontend section developed by using Flutter. 
+In this project I used Spring Boot. Frontend section developed by using Flutter. 
 Here frontend sections
 [source code](https://github.com/Tareq23/ecommerce-frontend)
 
