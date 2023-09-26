@@ -1,11 +1,13 @@
 package com.research.project.security.entity;
 
-import java.util.ArrayList;
+
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,15 +16,24 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.research.project.entity.AddressEntity;
+import com.research.project.entity.CartEntity;
+import com.research.project.entity.ContactEntity;
+import com.research.project.entity.OrderEntity;
+import com.research.project.entity.ProductEntity;
+import com.research.project.entity.ReviewEntity;
 
-@Entity
+@Entity(name = "users")
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserEntity {
 	
 	@Id
@@ -34,6 +45,16 @@ public class UserEntity {
 	private String password;
 	private String phoneNumber;
 	
+	@Column(nullable = true)
+	private String dateOfBirth;
+	
+	
+	@Column(nullable = true)
+	private String createdAt;
+	@Column(nullable = true)
+	private String updatedAt;
+	
+	
 	@ManyToMany
 	@JoinTable(name="user_roles",
 		joinColumns = @JoinColumn(name="user_id",referencedColumnName = "id"),
@@ -42,104 +63,251 @@ public class UserEntity {
 	private Set<RoleEntity> roles = new HashSet<>();
 	
 	
-	/**
-	 * @return the roles
-	 */
-	public Set<RoleEntity> getRoles() {
-		return roles;
-	}
-	/**
-	 * @param roles the roles to set
-	 */
-	public void setRoles(Set<RoleEntity> roles) {
+	
+	
+	
+
+	@JsonManagedReference(value = "user-product-movement")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<ProductEntity> products;
+	
+	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<AddressEntity> addresses;
+	
+	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<CartEntity> carts;
+	
+	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<ContactEntity> contacts;
+	
+	
+	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<OrderEntity> orders;
+	
+	
+	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<ReviewEntity> review;
+
+
+	
+	
+	
+	
+	public UserEntity(long id, String firstName, String lastName, String username, String password, String phoneNumber,
+			String dateOfBirth, String createdAt, String updatedAt, Set<RoleEntity> roles, Set<ProductEntity> products,
+			Set<AddressEntity> addresses, Set<CartEntity> carts, Set<ContactEntity> contacts, Set<OrderEntity> orders,
+			Set<ReviewEntity> review) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.phoneNumber = phoneNumber;
+		this.dateOfBirth = dateOfBirth;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 		this.roles = roles;
+		this.products = products;
+		this.addresses = addresses;
+		this.carts = carts;
+		this.contacts = contacts;
+		this.orders = orders;
+		this.review = review;
 	}
+
+
+	public UserEntity(long id, String firstName, String lastName, String username, String password, String phoneNumber,
+			String createdAt, String updatedAt, Set<RoleEntity> roles, Set<ProductEntity> products,
+			Set<AddressEntity> addresses, Set<CartEntity> carts, Set<ContactEntity> contacts, Set<OrderEntity> orders) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.phoneNumber = phoneNumber;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.roles = roles;
+		this.products = products;
+		this.addresses = addresses;
+		this.carts = carts;
+		this.contacts = contacts;
+		this.orders = orders;
+	}
+
+
 	public UserEntity() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public UserEntity(String firstName, String lastName, String username, String phoneNumber, String password) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.username = username;
-		this.phoneNumber = phoneNumber;
-		this.password = password;
-	}
-	
 
-	/**
-	 * @return the id
-	 */
+
 	public long getId() {
 		return id;
 	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-	/**
-	 * @return the firstName
-	 */
+
+
 	public String getFirstName() {
 		return firstName;
 	}
-	/**
-	 * @param firstName the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	/**
-	 * @return the lastName
-	 */
+
+
 	public String getLastName() {
 		return lastName;
 	}
-	/**
-	 * @param lastName the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	/**
-	 * @return the username
-	 */
+
+
 	public String getUsername() {
 		return username;
 	}
-	/**
-	 * @param username the username to set
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	/**
-	 * @return the phoneNumber
-	 */
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-	/**
-	 * @param phoneNumber the phoneNumber to set
-	 */
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-	/**
-	 * @return the password
-	 */
+
+
 	public String getPassword() {
 		return password;
 	}
-	/**
-	 * @param password the password to set
-	 */
+
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+
+	public String getUpdatedAt() {
+		return updatedAt;
+	}
+
+
+	public Set<RoleEntity> getRoles() {
+		return roles;
+	}
+
+
+	public Set<ProductEntity> getProducts() {
+		return products;
+	}
+
+
+	public Set<AddressEntity> getAddresses() {
+		return addresses;
+	}
+
+
+	public Set<CartEntity> getCarts() {
+		return carts;
+	}
+
+
+	public Set<ContactEntity> getContacts() {
+		return contacts;
+	}
+
+
+	public Set<OrderEntity> getOrders() {
+		return orders;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
+	public void setUpdatedAt(String updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+
+	public void setRoles(Set<RoleEntity> roles) {
+		this.roles = roles;
+	}
+
+
+	public void setProducts(Set<ProductEntity> products) {
+		this.products = products;
+	}
+
+
+	public void setAddresses(Set<AddressEntity> addresses) {
+		this.addresses = addresses;
+	}
+
+
+	public void setCarts(Set<CartEntity> carts) {
+		this.carts = carts;
+	}
+
+
+	public void setContacts(Set<ContactEntity> contacts) {
+		this.contacts = contacts;
+	}
+
+
+	public void setOrders(Set<OrderEntity> orders) {
+		this.orders = orders;
+	}
+
+
+	public Set<ReviewEntity> getReview() {
+		return review;
+	}
+
+
+	public void setReview(Set<ReviewEntity> review) {
+		this.review = review;
+	}
+
+
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
 	
 	
 

@@ -1,6 +1,7 @@
 package com.research.project.admin.controller;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.http.HttpRequest;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -39,7 +40,7 @@ public class AdminCategoryController {
 	private CategoryRepository categoryRepository;
 	
 	@PostMapping(path = "/add",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-	public <T> Object addCategory(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) throws JsonMappingException, JsonProcessingException
+	public <T> Object addCategory(@RequestParam("file") MultipartFile file, @RequestParam("body") String name) throws JsonMappingException, JsonProcessingException
 	{
 		
 		if(file.isEmpty())
@@ -70,16 +71,17 @@ public class AdminCategoryController {
 	}
 	
 	
-	@GetMapping("/all-only-category")
+	@GetMapping("/show-only-category")
 	public <T> Object showAllCategoryOnly()
 	{
-		return ResponseEntity.ok().body(categoryRepository.getOnlyCategory());
+		return ResponseEntity.ok().body(categoryRepository.getAllCategory());
 	}
 	
 	@GetMapping("/show/{category-id}/products")
 	public <T> Object showSingleCategoryProduct(@PathVariable("category-id") Long id)
 	{
 		return ResponseEntity.ok().body(categoryRepository.findById(id));
+//		return ResponseEntity.ok().body(categoryRepository.getProductByCategoryId(id));
 	}
 	
 	
@@ -87,7 +89,7 @@ public class AdminCategoryController {
 	@GetMapping("/show/{category-id}")
 	public <T> Object showCategory(@PathVariable("category-id") Long id)
 	{
-		return ResponseEntity.ok().body(categoryRepository.findOnlyCategory(id));
+		return ResponseEntity.ok().body(categoryRepository.findById(id));
 	}
 	
 	
@@ -102,7 +104,7 @@ public class AdminCategoryController {
 	
 	
 	@PutMapping(path="/update-with-image",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-	public <T> Object updateCategoryWithImage(@RequestParam("file") MultipartFile file,@RequestParam("isImageExists") String isImageExists, @RequestParam("isImageChanged") String isImageChanged, @RequestParam("name") String name) throws IOException
+	public <T> Object updateCategoryWithImage(@RequestParam("file") MultipartFile file,@RequestParam("isImageExists") String isImageExists, @RequestParam("isImageChanged") String isImageChanged, @RequestParam("body") String name) throws IOException
 	{
 		
 		
@@ -139,7 +141,13 @@ public class AdminCategoryController {
 //			categoryRepository.delete(category);
 //			return ResponseEntity.noContent().build();
 //		}
-		categoryRepository.delete(category);
+//		int rs = categoryRepository.deleteCategoryProduct(category.getId());
+//		if(rs >= 0) {
+//			categoryRepository.delete(category);
+//		}
+//		
+//		System.out.println("rs ---------> delete category : "+rs);
+		
 		return ResponseEntity.noContent().build();
 //		return "Something went to wrong";
 	}

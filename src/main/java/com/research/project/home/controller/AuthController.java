@@ -1,4 +1,4 @@
-package com.research.project.controller;
+package com.research.project.home.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ import com.research.project.security.service.CustomUserDetailsService;
 import com.research.project.security.service.JwtUtils;
 
 @RestController
-public class HomeController {
+public class AuthController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
